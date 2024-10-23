@@ -5,6 +5,9 @@ const genreModel = require('../models/genre.model');
 const movieModel = require('../models/movie.model');
 const actorModel = require('../models/actor.model');
 const movieActorModel = require('../models/movieActor.model');
+const copyModel = require('../models/copy.model');
+const memberModel = require('../models/member.model');
+const bookingModel = require('../models/booking.model');
 
 /*
     1) Nombre de la base de datos
@@ -23,6 +26,9 @@ const Genre = genreModel(sequelize, Sequelize);
 const Movie = movieModel(sequelize, Sequelize);
 const Actor = actorModel(sequelize, Sequelize);
 const MovieActor = movieActorModel(sequelize, Sequelize);
+const Copy = copyModel(sequelize, Sequelize);
+const Member = memberModel(sequelize, Sequelize);
+const Booking = bookingModel(sequelize, Sequelize);
 
 // Un genero puede tener muchas peliculas
 Genre.hasMany(Movie, { as: 'movies' });
@@ -48,9 +54,16 @@ Movie.belongsToMany(Actor, {foreignKey: 'actorId', as: 'actors', through: 'movie
 // movieActor -> Actor
 Actor.belongsToMany(Movie, {foreignKey: 'movieId', as: 'movies', through: 'movies_actors' });
 
+Copy.belongsTo(Movie, {foreignKey: 'movieId'});
+
+Booking.belongsTo(Member, {foreignKey: 'memberId'});
+Booking.belongsTo(Copy, {foreignKey: 'copyId'});
+Copy.belongsToMany(Member, {foreignKey: 'copyId', as: 'members', through: 'bookings' });
+Member.belongsToMany(Copy, {foreignKey: 'memberId', as: 'copies', through: 'bookings' });
+
 // Sincronizar la base de datos
 sequelize.sync({ force: true }).then(() => {
     console.log('Tablas sincronizadas');
 });
 
-module.exports = { Director, Genre, Movie, Actor, MovieActor };
+module.exports = { Director, Genre, Movie, Actor, MovieActor, Copy, Member, Booking };
