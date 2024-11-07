@@ -1,6 +1,6 @@
 const express = require("express");
-const Movie = require("../models/movie");
-const Director = require("../models/director");
+const Movie = require("../models/movie.model");
+const Director = require("../models/director.model");
 
 async function create(req, res, next) {
     const { title, directorId } = req.body;
