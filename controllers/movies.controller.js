@@ -14,33 +14,36 @@ async function create(req, res, next) {
 
     movie
         .save()
-        .then((obj) =>
-        res.status(200).json({
-            msg: ⁠ Pelicula almacenada completamente ⁠,
-            obj: obj,
-        })
+        .then((obj) => {
+            res.status(200).json({
+                msg: "Pelicula almacenada correctamente",
+                data: obj,
+            });
+        }
         )
-        .catch((ex) =>
-        res.status(500).json({
-            msg: ⁠ Fallo al almacenar la pelicula ⁠,
-            obj: ex,
-        })
+        .catch((ex) => {
+            res.status(500).json({
+                msg: "Fallo al almacenar pelicula",
+                data: ex,
+            });
+        }
         );
 }
 function list(req, res, next) {
     Movie.find()
         .populate("_director")
-        .then((objs) =>
-        res.status(200).json({
-            msg: "Peliculas consultados correctamente",
-            obj: objs,
-        })
+        .then((objs) =>{ 
+            res.status(200).json({
+            msg: "Peliculas listadas correctamente",
+            data: objs,
+        })}
         )
-        .catch((exception) =>
-        res.status(500).json({
-            msg: "Fallo al consultar peliculas",
-            obj: exception,
-        })
+        .catch((exception) => {
+            res.status(500).json({
+                msg: "Fallo al listar peliculas",
+                data: exception,
+            });
+        }
         );
 }
 function index(req, res, next) {}
