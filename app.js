@@ -5,8 +5,10 @@ var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 const mongoose = require("mongoose");
 const { expressjwt } = require("express-jwt");
+const config = require('config');
+const i18n = require("i18n");
 
-const jwtKey = "50afdb2b6f3a7faca28c57a036868247";
+const jwtKey = config.get("secret.key");
 
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
@@ -28,6 +30,13 @@ db.on("error", () => {
   console.log("Error de conexión a la base de datos");
 });
 
+i18n.configure({
+  locales: ["es", "en"],
+  cookie: "lang",
+  directory: path.join(__dirname, "locales"),
+  defaultLocale: "es",
+});
+
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "pug");
 
@@ -35,6 +44,7 @@ app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(i18n.init);
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use(

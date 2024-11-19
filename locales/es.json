@@ -1,0 +1,7 @@
+{
+	"login": {
+		"failed": "Usuario y/o contraseña incorrectos",
+		"ok": "Logueado correctamente"
+	},
+	"login.ok": "login.ok"
+}
