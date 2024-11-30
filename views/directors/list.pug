@@ -1,0 +1,13 @@
+extends ../layout
+
+block content
+    table
+        thead
+            tr
+                th Name
+                th Last Name
+        tbody
+            each director in directors
+                tr
+                    td= director.docs._name
+                    td= director.docs._lastName
